@@ -1,4 +1,4 @@
-package live.di;
+package live.context;
 
 
 import live.Main;
@@ -17,9 +17,8 @@ public class ComponentScanner {
         // basePackage 및 그 하위 패키지의 모든 클래스 가져오기
         Set<Class<?>> allTypes = reflections.getSubTypesOf(Object.class); // 모든 클래스는 Object를 상속
 
-        Set<Class<?>> scannedClazz = allTypes.stream()
+        return allTypes.stream()
                 .filter(c -> c.isAnnotationPresent(Component.class))
                 .collect(Collectors.toSet());
-
     }
 }
