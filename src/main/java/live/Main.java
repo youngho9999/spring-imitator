@@ -4,9 +4,6 @@ import live.context.ComponentScanner;
 import live.context.SpringContext;
 import live.context.SpringContextInitiator;
 import live.domain.CatController;
-import live.domain.CatService;
-
-import java.lang.reflect.Field;
 import java.util.Set;
 
 public class Main {
