@@ -1,4 +1,4 @@
-package live.domain;
+package live.domain.cat;
 
 import live.context.AutoWire;
 import live.context.Component;

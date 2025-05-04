@@ -3,7 +3,7 @@ package live;
 import live.context.ComponentScanner;
 import live.context.SpringContext;
 import live.context.SpringContextInitiator;
-import live.domain.CatController;
+import live.domain.cat.CatController;
 import java.util.Set;
 
 public class Main {
