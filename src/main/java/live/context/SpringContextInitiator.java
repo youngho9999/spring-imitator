@@ -4,6 +4,7 @@ import live.exception.ContextInitializeException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.Set;
 
@@ -22,6 +23,31 @@ public class SpringContextInitiator {
 
     public void injectDependencies() {
         injectToFields();
+        injectBySetter();
+    }
+
+    private void injectBySetter() {
+        for (Class<?> clazz : SpringContext.BEAN_MAP.keySet()) {
+            Method[] methods = clazz.getMethods();
+
+            for (Method method : methods) {
+                if(!method.isAnnotationPresent(AutoWire.class)) {
+                    continue;
+                }
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                Object[] injectInstances = new Object[parameterTypes.length];
+
+                for(int i = 0; i < parameterTypes.length; i++) {
+                    injectInstances[i] = Optional.ofNullable(SpringContext.BEAN_MAP.get(parameterTypes[i])).orElseThrow(ContextInitializeException::new);
+                }
+
+                try {
+                    method.invoke(SpringContext.BEAN_MAP.get(clazz), injectInstances);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    throw new ContextInitializeException(e);
+                }
+            }
+        }
     }
 
     private void injectToFields() {
