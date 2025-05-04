@@ -3,6 +3,7 @@ package live;
 import live.context.ComponentScanner;
 import live.context.SpringContext;
 import live.context.SpringContextInitiator;
+import live.domain.eagle.EagleController;
 import live.domain.cat.CatController;
 import live.domain.dog.DogController;
 
@@ -15,8 +16,7 @@ public class Main {
 
         // 2. 컨텍스트 초기화 및 의존성 주입
         SpringContextInitiator initiator = new SpringContextInitiator();
-        initiator.createInstances(scannedComponents);
-        initiator.injectDependencies();
+        initiator.init(scannedComponents);
 
         //테스트
         CatController o = (CatController) SpringContext.BEAN_MAP.get(CatController.class);
@@ -24,6 +24,9 @@ public class Main {
 
         DogController dog = (DogController) SpringContext.BEAN_MAP.get(DogController.class);
         dog.bark();
+
+        EagleController eagle = (EagleController) SpringContext.BEAN_MAP.get(EagleController.class);
+        eagle.fly();
 
     }
 }
