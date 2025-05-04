@@ -25,7 +25,7 @@ public class SpringContextInitiator {
         }
     }
 
-    public void createInstancesForNoConstructorInjectionRequired(Set<Class<?>> scannedComponents) {
+    private void createInstancesForNoConstructorInjectionRequired(Set<Class<?>> scannedComponents) {
         Set<Class<?>> toRemove = new HashSet<>();
 
         clazzloop:
@@ -50,7 +50,7 @@ public class SpringContextInitiator {
         scannedComponents.removeAll(toRemove);
     }
 
-    public Queue<Class<?>> initializeInDegreeForConstructor(Set<Class<?>> scannedComponents) {
+    private Queue<Class<?>> initializeInDegreeForConstructor(Set<Class<?>> scannedComponents) {
         //진입차수 저장 Map
         clazzInDegree = new HashMap<>();
         //그래프 탐색을 위한 Map
