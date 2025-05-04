@@ -21,6 +21,10 @@ public class SpringContextInitiator {
     }
 
     public void injectDependencies() {
+        injectToFields();
+    }
+
+    private void injectToFields() {
         for (Class<?> clazz : SpringContext.BEAN_MAP.keySet()) {
             Field[] declaredFields = clazz.getDeclaredFields();
 
