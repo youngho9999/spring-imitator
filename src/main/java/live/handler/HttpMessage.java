@@ -11,4 +11,11 @@ public class HttpMessage {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public HttpMessage(String message) {
+        this.message = message;
+    }
+
+    public HttpMessage() {
+    }
 }
