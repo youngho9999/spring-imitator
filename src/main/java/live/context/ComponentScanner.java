@@ -19,6 +19,7 @@ public class ComponentScanner {
 
         return allTypes.stream()
                 .filter(c -> c.isAnnotationPresent(Component.class))
+                .filter(c -> !c.isAnnotation())
                 .collect(Collectors.toSet());
     }
 }
