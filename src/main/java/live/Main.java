@@ -3,7 +3,8 @@ package live;
 import live.context.ComponentScanner;
 import live.context.SpringContext;
 import live.context.SpringContextInitiator;
-import live.listener.ConsoleListener;
+import live.handler.PathContextInitiator;
+import live.listener.WebServer;
 
 import java.util.Set;
 
@@ -25,7 +26,10 @@ public class Main {
     }
 
     private static void intializeDispatcherServlet() {
-        ConsoleListener consoleListener = (ConsoleListener) SpringContext.BEAN_MAP.get(ConsoleListener.class);
-        consoleListener.listenConsole();
+        PathContextInitiator initiator = new PathContextInitiator();
+        initiator.scanHandlers();
+
+        WebServer webServer = (WebServer) SpringContext.BEAN_MAP.get(WebServer.class);
+        webServer.listenConsole();
     }
 }
