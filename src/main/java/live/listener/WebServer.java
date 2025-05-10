@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Component
-public class ConsoleListener {
+public class WebServer {
 
     private final DispatcherServlet dispatcherServlet;
 
     @AutoWire
-    public ConsoleListener(DispatcherServlet dispatcherServlet) {
+    public WebServer(DispatcherServlet dispatcherServlet) {
         this.dispatcherServlet = dispatcherServlet;
     }
 
@@ -29,7 +29,8 @@ public class ConsoleListener {
                     break; // "exit" 입력 시 종료
                 }
                 String[] splitInput = input.split(" ");
-                dispatcherServlet.dispatch(splitInput[0], splitInput[1]);
+                String output = dispatcherServlet.dispatch(splitInput[0], splitInput[1]);
+                System.out.println(output);
             }
         } catch (IOException e) {
             e.printStackTrace();
