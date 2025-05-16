@@ -1,6 +1,8 @@
 package live.handler;
 
 import live.context.SpringContext;
+import live.handler.impl.HttpRequestHandlerHandler;
+import live.handler.impl.RequestMappingHandler;
 
 import java.lang.reflect.Method;
 
@@ -23,7 +25,8 @@ public class PathContextInitiator {
                     throw new RuntimeException(e);
                 }
 
-                PathContext.PATH_METHOD_MAP.put(path, method);
+                HttpRequestHandlerHandler handler = new HttpRequestHandlerHandler(method);
+                PathContext.PATH_HANDLER_MAP.put(path, handler);
                 continue;
             }
 
@@ -31,7 +34,9 @@ public class PathContextInitiator {
             for (Method method : clazz.getDeclaredMethods()) {
                 if (method.isAnnotationPresent(RequestMapping.class)) {
                     String path = method.getAnnotation(RequestMapping.class).value();
-                    PathContext.PATH_METHOD_MAP.put(path, method);
+
+                    RequestMappingHandler handler = new RequestMappingHandler(method);
+                    PathContext.PATH_HANDLER_MAP.put(path, handler);
                 }
             }
 
