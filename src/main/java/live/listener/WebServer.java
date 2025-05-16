@@ -3,6 +3,7 @@ package live.listener;
 import live.context.AutoWire;
 import live.context.Component;
 import live.handler.DispatcherServlet;
+import live.handler.HttpMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +30,9 @@ public class WebServer {
                     break; // "exit" 입력 시 종료
                 }
                 String[] splitInput = input.split(" ");
-                String output = dispatcherServlet.dispatch(splitInput[0], splitInput[1]);
+
+                HttpMessage request = new HttpMessage(splitInput[0], splitInput[1]);
+                String output = dispatcherServlet.dispatch(request);
                 System.out.println(output);
             }
         } catch (IOException e) {

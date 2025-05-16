@@ -10,7 +10,7 @@ import live.handler.HttpRequestHandler;
 public class TigerClimbController implements HttpRequestHandler {
     @Override
     public void handleRequest(HttpMessage input, HttpMessage output) {
-        String message = input.getMessage() + " is Climbing";
-        output.setMessage(message);
+        String message = input.getBody() + " is Climbing";
+        output.setBody(message);
     }
 }
