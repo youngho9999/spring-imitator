@@ -46,5 +46,5 @@
 - [**[1편] IoC와 DI 구현**](https://aplbly.tistory.com/8)
 - [**[2편] 생성자 주입 구현**](https://aplbly.tistory.com/9)
 - [**[3편] DispatcherServlet 구현**](https://aplbly.tistory.com/16)
-- [**[3편] DispatcherServlet v2, 그리고 실제 스프링과의 비교**](https://aplbly.tistory.com/21)
+- [**[4편] DispatcherServlet v2, 그리고 실제 스프링과의 비교**](https://aplbly.tistory.com/21)
 
