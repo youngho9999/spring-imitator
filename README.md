@@ -18,19 +18,16 @@
 
 ## 🔧 구현된 기능 (또는 구현 예정)
 
-*   [ ] **IoC 컨테이너/ 의존성 주입 (DI)**:
+*   [X] **IoC 컨테이너/ 의존성 주입 (DI)**:
     *   [X] `@Component` 스캔
     *   [X] 필드 기반 의존성 주입
     *   [X] Setter 기반 의존성 주입
     *   [X] 생성자 기반 의존성 주입
-    *   [ ] `@Configuration`, `@Bean` 처리
-*   [ ] **AOP**:
-    *   [ ] JDK Dynamic Proxy 또는 CGLIB 기반 프록시 생성
-    *   [ ] Pointcut, Advice 개념 구현
+*   [ ] **웹서버/Controller**:
+    *   [X] DispatcherServlet
+    *   [ ] 쓰레드풀 기반 IO
 *   [ ] **기타**:
     *   [ ] (추가 기능이나 구현 중인 내용 기입)
-
-*(구현 완료된 항목은 `[x]` 로 표시해주세요)*
 
 ## 🛠️ 기술 스택
 
@@ -44,8 +41,10 @@
 
 이 프로젝트를 진행하며 배우고 느낀 점, 마주친 문제와 해결 과정 등을 블로그에 꾸준히 기록하고 있습니다. 스프링 내부 구현에 대한 더 자세한 이야기가 궁금하시다면 아래 링크를 방문해주세요!
 
-🔗 [**스프링 직접 구현하기 시리즈**](https://velog.io/@aplbly/series/%EB%82%98%EB%A7%8C%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+🔗 [**스프링 직접 구현하기 시리즈**](https://aplbly.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EC%8A%A4%ED%94%84%EB%A7%81%20%EC%A7%81%EC%A0%91%20%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
 
-🔗 [**[1편] IoC와 DI 구현**](https://velog.io/@aplbly/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%A7%81%EC%A0%91-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-1-IoC%EC%99%80-DI-%EA%B5%AC%ED%98%84)
-🔗 [**[2편] 생성자 주입 구현**](https://velog.io/@aplbly/%EC%8A%A4%ED%94%84%EB%A7%81-%EC%A7%81%EC%A0%91-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-2-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A3%BC%EC%9E%85)
+- [**[1편] IoC와 DI 구현**](https://aplbly.tistory.com/8)
+- [**[2편] 생성자 주입 구현**](https://aplbly.tistory.com/9)
+- [**[3편] DispatcherServlet 구현**](https://aplbly.tistory.com/16)
+- [**[3편] DispatcherServlet v2, 그리고 실제 스프링과의 비교**](https://aplbly.tistory.com/21)
 
