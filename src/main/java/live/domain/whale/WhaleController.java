@@ -20,4 +20,9 @@ public class WhaleController {
     public String getWhale() {
         return whaleService.getWhale();
     }
+
+    @RequestMapping("/fastwhale")
+    public String getFastWhale() {
+        return "Fast Whale";
+    }
 }
