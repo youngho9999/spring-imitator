@@ -30,6 +30,6 @@ public class Main {
         initiator.scanHandlers();
 
         WebServer webServer = (WebServer) SpringContext.BEAN_MAP.get(WebServer.class);
-        webServer.listenConsole();
+        webServer.listenSocket();
     }
 }
