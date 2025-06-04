@@ -7,7 +7,6 @@ import live.handler.DispatcherServlet;
 import live.handler.PathContextInitiator;
 import live.listener.Acceptor;
 import live.listener.Poller;
-import live.listener.WebServer;
 
 import java.io.IOException;
 import java.util.Set;
@@ -19,8 +18,6 @@ public class Main {
         initializeSpringContext();
         intializeDispatcherServlet();
         initializeWebServer();
-
-
     }
 
     private static void initializeWebServer() {
@@ -38,8 +35,6 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     private static void initializeSpringContext() {
