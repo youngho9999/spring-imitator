@@ -1,44 +1,53 @@
 package live.listener;
 
+import live.handler.DispatcherServlet;
+
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Poller implements Runnable {
 
 
-    private final Queue<SocketChannel> eventQueue = new ConcurrentLinkedQueue<>();
+    private final Queue<PollerEvent> eventQueue = new ConcurrentLinkedQueue<>();
     private final Selector selector;
+    private final ExecutorService executorService;
+    private final DispatcherServlet dispatcherServlet;
     private final AtomicInteger count = new AtomicInteger(-1);
 
-    public Poller() throws IOException {
+    public Poller(ExecutorService executorService, DispatcherServlet dispatcherServlet) throws IOException {
         this.selector = Selector.open();
+        this.executorService = executorService;
+        this.dispatcherServlet = dispatcherServlet;
     }
 
     @Override
     public void run() {
 
         int selected = 0;
+        boolean hasEvents = false;
 
         while(true) {
 
+            hasEvents = false;
             selected = 0;
 
             while(!eventQueue.isEmpty()) {
-                registerSocket();
+                hasEvents = true;
+                handleEvents();
             }
 
             try {
-                if(count.getAndSet(-1) >= 0) {
+                if(hasEvents) {
                     selected = selector.selectNow();
                 } else {
+                    count.set(-1);
                     selected = selector.select();
                     count.incrementAndGet();
                 }
@@ -57,42 +66,35 @@ public class Poller implements Runnable {
 
                 if(key.isReadable()) {
                     SocketChannel channel = (SocketChannel) key.channel();
-                    ByteBuffer buffer = ByteBuffer.allocate(1024);
+                    key.interestOps(key.interestOps() & ~SelectionKey.OP_READ);
 
-                    try {
-                        int read = channel.read(buffer);
-                        if(read == -1) {
-                            channel.close();
-                        } else {
-                            buffer.flip();
-                            byte[] data = new byte[buffer.remaining()];
-                            buffer.get(data);
-                            String message = new String(data);
-
-                            System.out.println("받은 데이터: " + message);
-                        }
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                    Worker worker = new Worker(channel, dispatcherServlet,this);
+                    executorService.execute(worker);
                 }
             }
         }
 
     }
 
-    private void registerSocket() {
-        SocketChannel socket = eventQueue.poll();
-        try {
-            socket.configureBlocking(false);
-            socket.register(selector, SelectionKey.OP_READ);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private void handleEvents() {
+        PollerEvent event = eventQueue.poll();
+        SocketChannel socket = event.getChannel();
+
+        if(event.getType() == PollerEvent.Type.SOCK_REGISTER) {
+            try {
+                socket.configureBlocking(false);
+                socket.register(selector, SelectionKey.OP_READ);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (event.getType() == PollerEvent.Type.OP_READ_REGISTER) {
+
+            final SelectionKey sk = socket.keyFor(getSelector());
+            sk.interestOps(sk.interestOps() | SelectionKey.OP_READ);
         }
     }
 
-    public Queue<SocketChannel> getEventQueue() {
+    public Queue<PollerEvent> getEventQueue() {
         return eventQueue;
     }
 

@@ -24,7 +24,8 @@ public class Acceptor implements Runnable {
                 SocketChannel client = server.accept();
                 System.out.println("클라이언트 연결됨: " + client.getRemoteAddress());
 
-                poller.getEventQueue().offer(client);
+                PollerEvent registerEvent = new PollerEvent(PollerEvent.Type.SOCK_REGISTER, client);
+                poller.getEventQueue().offer(registerEvent);
                 if(poller.getCount().incrementAndGet() == 0) {
                     poller.getSelector().wakeup();
                 }
