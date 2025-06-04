@@ -1,10 +1,12 @@
 package live.listener;
 
 import live.handler.DispatcherServlet;
+import live.handler.HttpMessage;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 
 public class Worker implements Runnable {
     private final SocketChannel channel;
@@ -32,8 +34,14 @@ public class Worker implements Runnable {
                 buffer.get(data);
                 String message = new String(data);
 
-                System.out.println("---------------------------------------------");
-                System.out.println("받은 데이터: " + message);
+                String[] splitted = message.split(" ");
+                HttpMessage request = new HttpMessage(splitted[0], splitted[1]);
+                String response = dispatcherServlet.dispatch(request);
+                response += "\n";
+
+                ByteBuffer responseBuffer = ByteBuffer.wrap(response.getBytes(StandardCharsets.UTF_8));
+                buffer.clear();
+                channel.write(responseBuffer);
             }
 
         } catch (IOException e) {
